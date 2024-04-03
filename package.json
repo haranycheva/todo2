@@ -1,8 +1,8 @@
 {
-  "name": "to-do-list",
+  "name": "todo2",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://haranycheva.github.io/to-do-list/",
+  "homepage": "https://haranycheva.github.io/todo2/",
   "dependencies": {
     "axios": "^1.6.8",
     "formik": "^2.4.5",
