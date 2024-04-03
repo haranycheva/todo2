@@ -84,6 +84,7 @@ export function App() {
     }
     setSelected({ id, title, description });
   };
+  
   const handleFilterChange = (filterName, filterValue) => {
     setFilters((filters) => ({ ...filters, [filterName]: filterValue }));
   };
