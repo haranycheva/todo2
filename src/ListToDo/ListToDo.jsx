@@ -12,7 +12,7 @@ export function ListToDo({ list, onDelete, selected, onClick }) {
           id={id}
           status={status}
           onDelete={onDelete}
-          selected={selected.id === id}
+          selected={selected?.id === id}
           onClick={(e) => onClick(e, id, title, description)}
         ></ItemToDo>
       ))}
