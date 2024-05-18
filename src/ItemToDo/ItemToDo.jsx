@@ -12,7 +12,7 @@ export function ItemToDo({
 }) {
   return (
     <Item status={status} level={level} onClick={onClick} selected={selected}>
-      <Title>{title}</Title>
+      <Title to={id}>{title}</Title>
       <Text>{description}</Text>
       <Level>{level}</Level>
       <ButtonDel

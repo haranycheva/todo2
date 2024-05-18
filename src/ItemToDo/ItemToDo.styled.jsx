@@ -1,36 +1,8 @@
-import { colors } from "../constants";
+import { getColor, getComp, getSelected } from "functions/getPropValuesToStyled";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-function getSelected({ selected }) {
-  if (!selected) {
-    return "solid";
-  }
-  return "double";
-}
 
-const getColor = ({ level }) => {
-    switch (level) {
-      case "hard":
-        return colors.LEVEL_ONE;
-      case "medium":
-        return colors.LEVEL_TWO;
-      case "easy":
-        return colors.LEVEL_THREE;
-      default:
-        break;
-    }
-  };
-  const getComp = ({ status }) => {
-    switch (status) {
-      case true:
-        return colors.COMPLETE;
-      case false:
-        return "transparent";
-      default:
-        break;
-    }
-  };
-  
   export const Item = styled.li`
     position: relative;
     width: calc((100% - 150px) / 3);
@@ -40,10 +12,12 @@ const getColor = ({ level }) => {
     background-color: ${getComp};
   `;
   
-  export const Title = styled.p`
+  export const Title = styled(Link)`
     font-size: 18px;
     font-style: italic;
     font-weight: 700;
+    text-decoration: none;
+    color: #0f0004
   `;
   
   export const Text = styled.p`

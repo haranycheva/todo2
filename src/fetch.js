@@ -16,3 +16,8 @@ export async function getToDo() {
   const res = await axios.get("");
   return res.data;
 }
+
+export async function getSingleToDo(id) {
+  const res = await axios.get(`/${id}`);
+  return res.data;
+}
