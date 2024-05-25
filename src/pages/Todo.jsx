@@ -6,10 +6,11 @@ import { PresentationBox } from "PresentationBox/PresentationBox";
 import { deleteToDo, getToDo } from "fetch";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { useParams, useSearchParams } from "react-router-dom";
 
 function Todo() {
   const [list, setList] = useState([]);
-  const [filters, setFilters] = useState({ title: "", level: "all" });
+  // const [filters, setFilters] = useState({ title: "", level: "all" });
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [selected, setSelected] = useState(
@@ -19,6 +20,9 @@ function Todo() {
   );
   const [deleteEl, setDeleteEl] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const[params, setParams] = useSearchParams();
+  const level = params.get(`level`) ?? "all";
+  const topic = params.get(`topic`) ?? "";
 
   useEffect(() => {
     const fetch = async () => {
@@ -67,33 +71,30 @@ function Todo() {
     setSelected({ id, title, description });
   };
 
-  const handleFilterChange = (filterName, filterValue) => {
-    setFilters((filters) => ({ ...filters, [filterName]: filterValue }));
-  };
-  const toFilter = (filters, list) => {
-    if (filters.level === "all") {
+  // const handleFilterChange = (filterName, filterValue) => {
+  //   setParams({[filterName]: filterValue})
+  //   // setFilters((filters) => ({ ...filters, [filterName]: filterValue }));
+  // };
+  const toFilter = ( list) => {
+    if (level === "all") {
       return list.filter((item) =>
-        item.title.toLowerCase().includes(filters.title.toLowerCase())
+        item.title.toLowerCase().includes(topic.toLowerCase())
       );
     }
     return list.filter(
       (item) =>
-        item.title.toLowerCase().includes(filters.title.toLowerCase()) &&
-        item.level === filters.level
+        item.title.toLowerCase().includes(topic.toLowerCase()) &&
+        item.level === level
     );
   };
   return (
     <>
-      <FilterForm
-        onFilterChange={handleFilterChange}
-        valueTitle={filters.title}
-        valueLevel={filters.level}
-      />
+      <FilterForm/>
       {error && <p>Ooooooooooops.... Something went wrong.....</p>}
       {isLoading && <Loader />}
       {list.length > 0 && (
         <ListToDo
-          list={toFilter(filters, list)}
+          list={toFilter(list)}
           onDelete={toggleDeleteModal}
           selected={selected}
           onClick={handleClick}

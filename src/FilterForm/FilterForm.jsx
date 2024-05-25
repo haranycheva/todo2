@@ -1,17 +1,24 @@
+import { useSearchParams } from "react-router-dom";
+
 export function FilterForm({ valueTitle, valueLevel, onFilterChange }) {
-  const onFiltersValueChange = (e) => {
-    const { name, value } = e.target;
-    onFilterChange(name, value);
+  const[params, setParams] = useSearchParams();
+  const level = params.get(`level`) ?? "all";
+  const topic = params.get(`topic`) ?? "";
+  const HandleTopicChange = (e) => {
+    setParams({level, topic:  e.target.value});
+  };
+  const HandleLevelChange = (e) => {
+    setParams({topic, level:  e.target.value});
   };
   return (
     <>
       <input
-        onChange={onFiltersValueChange}
+        onChange={HandleTopicChange}
         name="title"
         type="text"
         value={valueTitle}
       />
-      <select onChange={onFiltersValueChange} name="level" value={valueLevel}>
+      <select onChange={HandleLevelChange} name="level" value={valueLevel}>
         <option value="easy">Level 1</option>
         <option value="medium">Level 2</option>
         <option value="hard">Level 3</option>
