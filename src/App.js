@@ -1,5 +1,5 @@
 import { GlobalStyled } from "GlobalStyle.style";
-import { Link, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import CreateTodo from "pages/CreateTodo";
 import Todo from "pages/Todo";
 import TodoDetails from "pages/TodoDetails";

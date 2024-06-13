@@ -1,18 +1,18 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { Btn, ModalBack, ModalWindow, Title } from "./ModalForDelete.styled";
 
 export function ModalForDelete({ onClose, onDelete }) {
-  const handleEscape = (e) => {
+  const handleEscape = useContext((e) => {
     if (e.code === "Escape") {
       onClose();
     }
-  };
+  });
   useEffect(() => {
     window.addEventListener("keydown", handleEscape);
     return () => {
       window.removeEventListener("keydown", handleEscape);
     };
-  }, []);
+  }, [handleEscape]);
   const handleClickBg = (e) => {
     if (e.target === e.currentTarget) {
       onClose();
