@@ -37,6 +37,7 @@ import styled from "styled-components";
   `;
   
   export const ButtonDel = styled.button`
+  margin-top: 10px;
     padding: 10px;
     border: transparent;
     background-color: #EF6F6C;

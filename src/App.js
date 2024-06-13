@@ -5,8 +5,11 @@ import Todo from "pages/Todo";
 import TodoDetails from "pages/TodoDetails";
 import { Toaster } from "react-hot-toast";
 import { Layout } from "Layout/Layout";
+// import { Suspense, lazy } from "react";
 import Home from "pages/Home";
 
+// const Home = lazy(() =>import('./pages/Home'))
+// <Suspense fallback={Home}> нада юзать тока експорт дефолт, бо всьо полетить нахуй, бо лезі шукає саме дефол 
 export function App() {
   return (
     <>

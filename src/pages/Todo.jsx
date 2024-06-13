@@ -6,11 +6,15 @@ import { PresentationBox } from "PresentationBox/PresentationBox";
 import { deleteToDo, getToDo } from "fetch";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useParams, useSearchParams } from "react-router-dom";
+import { chandeTodoArr } from "../redux/actions";
+import { getTodoArr } from "../redux/selector";
 
 function Todo() {
-  const [list, setList] = useState([]);
-  // const [filters, setFilters] = useState({ title: "", level: "all" });
+  // const [list, setList] = useState([]);
+  const todoList = useSelector(getTodoArr);
+  const dispatch = useDispatch()
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [selected, setSelected] = useState(
@@ -29,7 +33,7 @@ function Todo() {
       setLoading(true);
       try {
         const data = await getToDo();
-        setList(data);
+        dispatch(chandeTodoArr(data));
       } catch (error) {
         console.log("err:", error);
         setError(error);
@@ -38,7 +42,7 @@ function Todo() {
       }
     };
     fetch();
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     localStorage.setItem("selected", JSON.stringify(selected));
@@ -54,7 +58,8 @@ function Todo() {
     setError(null);
     try {
       const dataDel = await deleteToDo(deleteEl);
-      setList((list) => list.filter((el) => el.id !== dataDel.id));
+      dispatch(chandeTodoArr(todoList.filter((el) => el.id !== dataDel.id)))
+      console.log(todoList.filter((el) => el.id !== dataDel.id));
       setSelected((selected) => (selected?.id === dataDel.id ? "" : selected));
       toast.success("Success 👻");
     } catch (error) {
@@ -70,11 +75,6 @@ function Todo() {
     }
     setSelected({ id, title, description });
   };
-
-  // const handleFilterChange = (filterName, filterValue) => {
-  //   setParams({[filterName]: filterValue})
-  //   // setFilters((filters) => ({ ...filters, [filterName]: filterValue }));
-  // };
   const toFilter = ( list) => {
     if (level === "all") {
       return list.filter((item) =>
@@ -92,9 +92,9 @@ function Todo() {
       <FilterForm/>
       {error && <p>Ooooooooooops.... Something went wrong.....</p>}
       {isLoading && <Loader />}
-      {list.length > 0 && (
+      {todoList.length > 0 && (
         <ListToDo
-          list={toFilter(list)}
+          list={toFilter(todoList)}
           onDelete={toggleDeleteModal}
           selected={selected}
           onClick={handleClick}

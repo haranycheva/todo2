@@ -5,7 +5,7 @@ import {
   getComp,
 } from "functions/getPropValuesToStyled";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import styled from "styled-components";
 
 export const TodoBox = styled.div`
@@ -36,6 +36,7 @@ function TodoDetails() {
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const { todoId } = useParams();
+  const location = useLocation();
   useEffect(() => {
     const fetch = async () => {
       setLoading(true);
@@ -55,6 +56,7 @@ function TodoDetails() {
     <>
       {error && <p>Ooooooooooops.... Something went wrong.....</p>}
       {isLoading && <Loader />}
+      <Link to={location.state?.from || "/todo"}>return back</Link>
       {todoData && (
         <TodoBox status={todoData.status} level={todoData.level}>
           <h3>{todoData.title}</h3>
