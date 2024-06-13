@@ -1,6 +1,6 @@
-import { Account } from "Account/Account";
-import { Provider } from "react-redux";
-import storeAccount from "../redux/store";
+// import { Account } from "Account/Account";
+// import { Provider } from "react-redux";
+// import storeAccount from "../redux/store";
 
 function Home() {
   return (

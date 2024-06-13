@@ -7,12 +7,11 @@ import { deleteToDo, getToDo } from "fetch";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useParams, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { chandeTodoArr } from "../redux/actions";
 import { getTodoArr } from "../redux/selector";
 
 function Todo() {
-  // const [list, setList] = useState([]);
   const todoList = useSelector(getTodoArr);
   const dispatch = useDispatch()
   const [isLoading, setLoading] = useState(false);
@@ -24,7 +23,7 @@ function Todo() {
   );
   const [deleteEl, setDeleteEl] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const[params, setParams] = useSearchParams();
+  const[params] = useSearchParams();
   const level = params.get(`level`) ?? "all";
   const topic = params.get(`topic`) ?? "";
 
