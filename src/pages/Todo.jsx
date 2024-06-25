@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
-import { chandeTodoArr } from "../redux/actions";
+import { changeTodoArr } from "../redux/TodoSlice";
 import { getTodoArr } from "../redux/selector";
 
 function Todo() {
@@ -32,7 +32,7 @@ function Todo() {
       setLoading(true);
       try {
         const data = await getToDo();
-        dispatch(chandeTodoArr(data));
+        dispatch(changeTodoArr(data));
       } catch (error) {
         console.log("err:", error);
         setError(error);
@@ -57,7 +57,7 @@ function Todo() {
     setError(null);
     try {
       const dataDel = await deleteToDo(deleteEl);
-      dispatch(chandeTodoArr(todoList.filter((el) => el.id !== dataDel.id)))
+      dispatch(changeTodoArr(todoList.filter((el) => el.id !== dataDel.id)))
       console.log(todoList.filter((el) => el.id !== dataDel.id));
       setSelected((selected) => (selected?.id === dataDel.id ? "" : selected));
       toast.success("Success 👻");
@@ -91,7 +91,7 @@ function Todo() {
       <FilterForm/>
       {error && <p>Ooooooooooops.... Something went wrong.....</p>}
       {isLoading && <Loader />}
-      {todoList.length > 0 && (
+      {todoList?.length > 0 && (
         <ListToDo
           list={toFilter(todoList)}
           onDelete={toggleDeleteModal}

@@ -1,13 +1,20 @@
-import { devToolsEnhancer } from "@redux-devtools/extension";
-import { createStore } from "redux";
-import { rootAccountReducer, rootTodoReducer } from "./reducer";
 
-const enchancer = devToolsEnhancer();
-
-
-export const storeTodo = createStore(rootTodoReducer, enchancer);
+import { configureStore } from "@reduxjs/toolkit";
+import { accountReducer } from "./AccountSlice";
+import { themeReducer } from "./ThemeSlice";
+import { rootTodoReducer } from "./TodoSlice";
 
 
-const storeAccount = createStore(rootAccountReducer, enchancer);
+
+export const storeTodo = configureStore({reducer: rootTodoReducer});
+
+
+// const storeAccount = createStore(rootAccountReducer, enchancer);
+
+export const storeAccount = configureStore({reducer: {
+    account: accountReducer,
+    theme: themeReducer,
+}, });
+
 
 export default storeAccount;
