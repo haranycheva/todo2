@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
-import { getBalance } from "../redux/selector";
+import { selectBalance } from "../redux/selector";
 import { deposit, withdraw } from "../redux/AccountSlice";
 
 export const Account = () => {
-  const balance = useSelector(getBalance);
+  const balance = useSelector(selectBalance);
   const dispatch = useDispatch()
   return (
     <div>

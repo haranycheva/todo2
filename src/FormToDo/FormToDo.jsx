@@ -1,6 +1,11 @@
-
 import * as Yup from "yup";
-import { Title, FormBtn, FormToDO, InputText, Select } from "./FormToDo.styled";
+import {
+  Title,
+  FormBtn,
+  FormToDO,
+  InputText,
+  SelectField,
+} from "./FormToDo.styled";
 import { Formik, ErrorMessage } from "formik";
 
 const schemaValidation = Yup.object({
@@ -13,7 +18,7 @@ const schemaValidation = Yup.object({
     .required("Level is required"),
 });
 
-export function FormToDo({onAdd}) {
+export function FormToDo({ onAdd }) {
   const handleInputChange = (e, handleChange) => {
     handleChange(e);
     localStorage.setItem(e.target.name, JSON.stringify(e.target.value));
@@ -32,7 +37,7 @@ export function FormToDo({onAdd}) {
         localStorage.setItem("title", JSON.stringify(""));
         localStorage.setItem("description", JSON.stringify(""));
         localStorage.setItem("level", JSON.stringify("easy"));
-    onAdd(values);
+        onAdd(values);
       }}
     >
       {({ values, handleChange }) => (
@@ -54,7 +59,7 @@ export function FormToDo({onAdd}) {
               value={values.description}
             />
             <ErrorMessage name="description" />
-            <Select
+            <SelectField
               name="level"
               as="select"
               onChange={(e) => handleInputChange(e, handleChange)}
@@ -63,7 +68,7 @@ export function FormToDo({onAdd}) {
               <option value="easy">Level 1</option>
               <option value="medium">Level 2</option>
               <option value="hard">Level 3</option>
-            </Select>
+            </SelectField>
             <FormBtn type="submit">Add</FormBtn>
           </FormToDO>
         </>

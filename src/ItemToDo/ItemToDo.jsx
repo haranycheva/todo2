@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import { Item, Level, Text, Title, ButtonDel } from "./ItemToDo.styled";
+import { Item, Level, Text, Title, Button } from "./ItemToDo.styled";
 
 export function ItemToDo({
   status,
@@ -17,13 +17,14 @@ export function ItemToDo({
       <Title to={id} state={{from: location}}>{title}</Title>
       <Text>{description}</Text>
       <Level>{level}</Level>
-      <ButtonDel
+      <Button
         onClick={(e) => {
           onDelete(id);
         }}
+        color="#fd111f"
       >
         del
-      </ButtonDel>
+      </Button>
     </Item>
   );
 }

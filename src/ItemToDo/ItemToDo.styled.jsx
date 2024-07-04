@@ -1,4 +1,4 @@
-import { getColor, getComp, getSelected } from "functions/getPropValuesToStyled";
+import { getButtonColor, getColor, getComp, getSelected } from "functions/getPropValuesToStyled";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
@@ -36,10 +36,10 @@ import styled from "styled-components";
     border: 1px solid black;
   `;
   
-  export const ButtonDel = styled.button`
+  export const Button = styled.button`
   margin-top: 10px;
     padding: 10px;
     border: transparent;
-    background-color: #EF6F6C;
+    background-color: ${getButtonColor};
     color: #fff;
   `;

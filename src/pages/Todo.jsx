@@ -3,19 +3,24 @@ import { ListToDo } from "ListToDo/ListToDo";
 import { Loader } from "Loader/Loader";
 import { ModalForDelete } from "ModalForDelete/ModalForDelete";
 import { PresentationBox } from "PresentationBox/PresentationBox";
-import { deleteToDo, getToDo } from "fetch";
+import { deleteToDo, getTodo } from "fetch";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
-import { changeTodoArr } from "../redux/TodoSlice";
-import { getTodoArr } from "../redux/selector";
+import {
+  selectTodoArr,
+  selectorError,
+  selectorLoading,
+} from "../redux/selector";
+import { ButtonOpenModal } from "./Todo.styled";
+import { ChangeTodoModal } from "ChangeTodoModal/ChangeTodoModal";
 
 function Todo() {
-  const todoList = useSelector(getTodoArr);
-  const dispatch = useDispatch()
-  const [isLoading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const todoList = useSelector(selectTodoArr);
+  const dispatch = useDispatch();
+  const isLoading = dispatch(selectorLoading);
+  const error = dispatch(selectorError);
   const [selected, setSelected] = useState(
     localStorage.getItem("selected")
       ? JSON.parse(localStorage.getItem("selected"))
@@ -23,22 +28,14 @@ function Todo() {
   );
   const [deleteEl, setDeleteEl] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const[params] = useSearchParams();
+  const [showChangeModal, setShowChangeModal] = useState(false);
+  const [params] = useSearchParams();
   const level = params.get(`level`) ?? "all";
   const topic = params.get(`topic`) ?? "";
 
   useEffect(() => {
     const fetch = async () => {
-      setLoading(true);
-      try {
-        const data = await getToDo();
-        dispatch(changeTodoArr(data));
-      } catch (error) {
-        console.log("err:", error);
-        setError(error);
-      } finally {
-        setLoading(false);
-      }
+      dispatch(getTodo());
     };
     fetch();
   }, [dispatch]);
@@ -53,20 +50,16 @@ function Todo() {
   };
 
   const handleDelete = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const dataDel = await deleteToDo(deleteEl);
-      dispatch(changeTodoArr(todoList.filter((el) => el.id !== dataDel.id)))
-      console.log(todoList.filter((el) => el.id !== dataDel.id));
-      setSelected((selected) => (selected?.id === dataDel.id ? "" : selected));
-      toast.success("Success 👻");
-    } catch (error) {
-      setError(error);
-    } finally {
-      setLoading(false);
-      toggleDeleteModal();
-    }
+    dispatch(
+      deleteToDo({
+        deleteEl,
+        doAfter(id) {
+          setSelected((selected) => (selected?.id === id ? "" : selected));
+          toggleDeleteModal();
+          toast.success("Success 👻");
+        },
+      })
+    );
   };
   const handleClick = (e, id, title, description) => {
     if (e.target.nodeName === "BUTTON") {
@@ -74,7 +67,7 @@ function Todo() {
     }
     setSelected({ id, title, description });
   };
-  const toFilter = ( list) => {
+  const toFilter = (list) => {
     if (level === "all") {
       return list.filter((item) =>
         item.title.toLowerCase().includes(topic.toLowerCase())
@@ -86,18 +79,27 @@ function Todo() {
         item.level === level
     );
   };
+  const toggleChangeTodoModal = () => {
+    setShowChangeModal((showChangeModal) => !showChangeModal)
+  };
+  const filteredList = todoList.length && toFilter(todoList)
   return (
     <>
-      <FilterForm/>
+      <FilterForm />
       {error && <p>Ooooooooooops.... Something went wrong.....</p>}
       {isLoading && <Loader />}
       {todoList?.length > 0 && (
-        <ListToDo
-          list={toFilter(todoList)}
-          onDelete={toggleDeleteModal}
-          selected={selected}
-          onClick={handleClick}
-        />
+        <>
+          <ButtonOpenModal onClick={toggleChangeTodoModal}>
+            change todo
+          </ButtonOpenModal>
+          <ListToDo
+            list={filteredList}
+            onDelete={toggleDeleteModal}
+            selected={selected}
+            onClick={handleClick}
+          />
+        </>
       )}
       <PresentationBox
         selected={
@@ -107,6 +109,7 @@ function Todo() {
           }
         }
       />
+      {showChangeModal && <ChangeTodoModal onClose={toggleChangeTodoModal}/>}
       {showDeleteModal && (
         <ModalForDelete onClose={toggleDeleteModal} onDelete={handleDelete} />
       )}

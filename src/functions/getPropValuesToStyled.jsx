@@ -1,4 +1,4 @@
-import { colors } from "constants";
+import { colors } from "constants";;
 
 export function getSelected({ selected }) {
     if (!selected) {
@@ -28,5 +28,8 @@ export function getSelected({ selected }) {
         default:
           break;
       }
+    };
+    export const getButtonColor = ({color}) => {
+      return color;
     };
     

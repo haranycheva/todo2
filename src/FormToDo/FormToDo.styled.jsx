@@ -20,7 +20,7 @@ export const Title = styled.h2`
   font-size: 44px;
   text-transform: uppercase;
 `;
-export const Select = styled(Field)`
+export const SelectField = styled(Field)`
   width: 500px;
   height: 30px;
 `;
@@ -30,4 +30,5 @@ export const FormBtn = styled.button`
   color: #fff;
   padding: 10px 40px;
   border: none;
+  display: block;
 `;
