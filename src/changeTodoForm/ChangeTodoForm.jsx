@@ -1,5 +1,5 @@
 import { FormBtn, InputText } from "../FormToDo/FormToDo.styled";
-import { changeTodo, getOneToDo } from "fetch";
+import { changeTodo, getSingleToDo } from "fetch";
 import { Field, Form, Formik } from "formik";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -20,7 +20,7 @@ export function ChangeTodoForm({ selectedItemId, onClose }) {
   const dispatch = useDispatch();
   useEffect(() => {
     const fetch = async () => {
-      const data = await getOneToDo(selectedItemId);
+      const data = await getSingleToDo(selectedItemId);
       setSelectedItem(data);
     };
     fetch();
@@ -37,7 +37,7 @@ export function ChangeTodoForm({ selectedItemId, onClose }) {
         validationSchema={schemaValidation}
         onSubmit={(values, { resetForm }) => {
           onClose();
-          dispatch(changeTodo({ id: selectedItem.id, data: values }));
+          dispatch(changeTodo({ id: selectedItem._id, data: values }));
           resetForm({
             title: selectedItem.title,
             description: selectedItem.description,

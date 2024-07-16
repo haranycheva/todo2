@@ -1,4 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
+import persistReducer from "redux-persist/es/persistReducer";
+import storage from "redux-persist/lib/storage";
 
 // export const deposit = createAction("account/deposit"); //(value) => ({payload: {value, id: Date.now()}})
 // export const withdraw = createAction("account/withdraw");
@@ -15,7 +17,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const accountSlice = createSlice({
   name: "account",
-  initialState: { balance: 9 },
+  initialState: { balance: 9, blabla: null },
   reducers: {
     deposit: {
       reducer(state, action) {
@@ -33,6 +35,14 @@ const accountSlice = createSlice({
 
 export const { deposit, withdraw } = accountSlice.actions;
 export const accountReducer = accountSlice.reducer;
+
+const accountPersistConfig = {
+  key: "account",
+  storage,
+  whitelist: ["balance"],
+};
+
+export const persistedAccountReduser = persistReducer(accountPersistConfig, accountReducer);
 
 // export const accountReducer = (state = { balance: 9 }, action) => {
 //   switch (action.type) {

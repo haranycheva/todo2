@@ -26,11 +26,10 @@ export function ChangeTodoModal({ onClose }) {
           <option key={0} value={""}>
             ...
           </option>
-          {todoList.map((item) => {
-            console.log(item);
+          {todoList.map(({title, _id: id}) => {
             return (
-              <option key={item.id} value={item.id}>
-                {item.title}
+              <option key={id} value={id}>
+                {title}
               </option>
             );
           })}

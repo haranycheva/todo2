@@ -3,7 +3,7 @@ import { ItemToDo } from "ItemToDo/ItemToDo";
 export function ListToDo({ list, onDelete, selected, onClick }) {
   return (
     <List>
-      {list.map(({ title, description, level, id, status }) => (
+      {list.map(({ title, description, level, _id: id, status }) => (
         <ItemToDo
           key={id}
           title={title}

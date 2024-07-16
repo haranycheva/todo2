@@ -19,13 +19,10 @@ import { ChangeTodoModal } from "ChangeTodoModal/ChangeTodoModal";
 function Todo() {
   const todoList = useSelector(selectTodoArr);
   const dispatch = useDispatch();
-  const isLoading = dispatch(selectorLoading);
-  const error = dispatch(selectorError);
-  const [selected, setSelected] = useState(
-    localStorage.getItem("selected")
-      ? JSON.parse(localStorage.getItem("selected"))
-      : null
-  );
+  const isLoading = useSelector(selectorLoading);
+  const error = useSelector(selectorError);
+  const [selected, setSelected] = useState(null);
+  //localStorage.getItem("selected") ? JSON.parse(localStorage.getItem("selected")): null
   const [deleteEl, setDeleteEl] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showChangeModal, setShowChangeModal] = useState(false);
@@ -40,9 +37,6 @@ function Todo() {
     fetch();
   }, [dispatch]);
 
-  useEffect(() => {
-    localStorage.setItem("selected", JSON.stringify(selected));
-  }, [selected]);
 
   const toggleDeleteModal = (id) => {
     setDeleteEl(!showDeleteModal ? id : null);
@@ -80,9 +74,9 @@ function Todo() {
     );
   };
   const toggleChangeTodoModal = () => {
-    setShowChangeModal((showChangeModal) => !showChangeModal)
+    setShowChangeModal((showChangeModal) => !showChangeModal);
   };
-  const filteredList = todoList.length && toFilter(todoList)
+  const filteredList = todoList?.length && toFilter(todoList);
   return (
     <>
       <FilterForm />
@@ -109,7 +103,7 @@ function Todo() {
           }
         }
       />
-      {showChangeModal && <ChangeTodoModal onClose={toggleChangeTodoModal}/>}
+      {showChangeModal && <ChangeTodoModal onClose={toggleChangeTodoModal} />}
       {showDeleteModal && (
         <ModalForDelete onClose={toggleDeleteModal} onDelete={handleDelete} />
       )}
