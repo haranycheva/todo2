@@ -82,7 +82,7 @@ function Todo() {
       <FilterForm />
       {error && <p>Ooooooooooops.... Something went wrong.....</p>}
       {isLoading && <Loader />}
-      {todoList?.length > 0 && (
+      {filteredList?.length > 0 && (
         <>
           <ButtonOpenModal onClick={toggleChangeTodoModal}>
             change todo
