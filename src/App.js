@@ -21,10 +21,7 @@ import { ErrorPage } from "pages/ErrorPage";
 export function App() {
   const dispatch = useDispatch()
   useEffect(() => {
-    const refresh = async => {
       dispatch(refreshUser())
-    }
-    refresh()
   }, [dispatch]);
   return (
     <>
