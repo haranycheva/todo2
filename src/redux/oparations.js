@@ -37,6 +37,7 @@ export const register = createAsyncThunk(
       setAuthHeader(res.data.token)
       return res.data;
     } catch (error) {
+      alert(error.response.data.message);
       return thunkApi.rejectWithValue(error.message);
     }
   }
@@ -49,6 +50,7 @@ export const login = createAsyncThunk("auth/login", async (arg, thunkApi) => {
     setAuthHeader(res.data.token)
     return res.data;
   } catch (error) {
+    alert(error.response.data.message);
     return thunkApi.rejectWithValue(error.message);
   }
 });
