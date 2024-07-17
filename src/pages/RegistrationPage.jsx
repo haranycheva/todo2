@@ -12,19 +12,18 @@ export const RegistrationPage = () => {
         initialValues={{
           "email": "",
           "password": "",
-          "username": "",
+          "userName": "",
         }}
         //   validationSchema={schemaValidation}
         onSubmit={(values, { resetForm }) => {
           resetForm({ email: "", password: "", userName: "" });
-          console.log(values)
           dispatch(register(values));
         }}
       >
         <Form>
           <Field name="email" placeholder="user@example.com" type="email" />
           <Field name="password" type="password" placeholder="password" />
-          <Field name="username" type="text" placeholder="user name" />
+          <Field name="userName" type="text" placeholder="user name" />
           <FormBtn type="submit">submit</FormBtn>
         </Form>
       </Formik>
